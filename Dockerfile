@@ -12,9 +12,12 @@ RUN [ -d /var/lock/httpd ] || mkdir /var/lock/httpd
 
 # add self-signed certificat
 ADD mycerts/ /etc/ssl/certs/mycerts/
-ADD conf/haproxy.cfg /tmp/haproxy.cfg
 
+# add haproxy config file
+ADD conf/haproxy.cfg /tmp/haproxy.cfg
 RUN cat /tmp/haproxy.cfg > /etc/haproxy/haproxy.cfg
+
+# deploy
 ADD Breakout/ /var/www/html/Breakout
 ADD conf/vhost.conf /etc/httpd/conf.d/
 
