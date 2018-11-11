@@ -1,18 +1,18 @@
 #!/bin/bash
 
 # Start the first process
-./httpd.sh
+sh /scripts/run-httpd.sh
 status=$?
 if [ $status -ne 0 ]; then
-  echo "Failed to start my_first_process: $status"
+  echo "Failed to start apache service: $status"
   exit $status
 fi
 
 # Start the second process
-./haproxy.sh
+sh /scripts/run-haproxy.sh
 status=$?
 if [ $status -ne 0 ]; then
-  echo "Failed to start my_second_process: $status"
+  echo "Failed to start haproxy service: $status"
   exit $status
 fi
 
@@ -22,10 +22,10 @@ fi
 # if it detects that either of the processes has exited.
 # Otherwise it loops forever, waking up every 60 seconds
 
-while sleep 120; do
-  ps aux |grep my_first_process |grep -q -v grep
+while sleep 60; do
+  ps aux |grep httpd |grep -q -v grep
   PROCESS_1_STATUS=$?
-  ps aux |grep my_second_process |grep -q -v grep
+  ps aux |grep haproxy |grep -q -v grep
   PROCESS_2_STATUS=$?
   # If the greps above find anything, they exit with 0 status
   # If they are not both 0, then something is wrong

@@ -8,7 +8,7 @@ RUN yum -y install haproxy \
 
 # add self-signed certificat
 ADD mycerts/ /etc/ssl/certs/mycerts/
-ADD haproxy.cfg /tmp
+ADD conf/haproxy.cfg /tmp
 
 RUN cat /tmp/haproxy.cfg > /etc/haproxy/haproxy.cfg
 RUN /usr/sbin/haproxy -f /etc/haproxy/haproxy.cfg
@@ -21,8 +21,6 @@ ADD Breakout/ /var/www/html/Breakout
 
 EXPOSE 80 443
 
-COPY script.sh /script.sh
-COPY haproxy.sh /haproxy.sh
-COPY httpd.sh /httpd.sh
+COPY scripts/ /scripts
 
-CMD ./script.sh
+CMD sh /scripts/services-wrapper.sh
